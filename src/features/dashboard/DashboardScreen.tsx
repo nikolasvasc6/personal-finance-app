@@ -217,7 +217,7 @@ export const DashboardScreen: React.FC = () => {
             </View>
           </View>
 
-          <View className="flex-row space-x-2">
+          <View className="flex-row gap-2">
             <TouchableOpacity
               onPress={() => setHideValues(!hideValues)}
               className="bg-white/70 border border-white/80 p-2.5 rounded-full"
@@ -243,22 +243,37 @@ export const DashboardScreen: React.FC = () => {
             {hideValues ? '••••••' : formatCurrency(totalBalance)}
           </Text>
 
-          <View className="flex-row justify-between border-t border-white/20 pt-4 mt-3">
-            <View>
-              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Receitas do Mês</Text>
-              <Text className="text-white text-sm font-bold">
+          <View className="flex-row gap-3 border-t border-white/20 pt-4 mt-3">
+            <View className="flex-1 items-start">
+              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Receitas</Text>
+              <Text
+                className="text-white text-sm font-bold"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.75}
+              >
                 {hideValues ? '••••' : `+ ${formatCurrency(totalIncomes)}`}
               </Text>
             </View>
-            <View>
-              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Despesas do Mês</Text>
-              <Text className="text-white text-sm font-bold">
+            <View className="flex-1 items-center">
+              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Despesas</Text>
+              <Text
+                className="text-white text-sm font-bold"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.75}
+              >
                 {hideValues ? '••••' : `- ${formatCurrency(totalExpenses)}`}
               </Text>
             </View>
-            <View>
+            <View className="flex-1 items-end">
               <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Economia</Text>
-              <Text className="text-white text-sm font-bold">
+              <Text
+                className="text-white text-sm font-bold"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.75}
+              >
                 {hideValues ? '••••' : formatCurrency(savings)}
               </Text>
             </View>
@@ -270,27 +285,27 @@ export const DashboardScreen: React.FC = () => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('expense')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center gap-2"
           >
-            <ArrowDownRight size={18} color={COLORS.danger} className="mr-2" />
+            <ArrowDownRight size={20} color={COLORS.danger} />
             <Text className="text-foreground font-bold text-xs">Pagar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('income')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center gap-2"
           >
-            <ArrowUpRight size={18} color={COLORS.success} className="mr-2" />
+            <ArrowUpRight size={20} color={COLORS.success} />
             <Text className="text-foreground font-bold text-xs">Receber</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('transfer')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center gap-2"
           >
-            <Plus size={18} color={COLORS.info} className="mr-2" />
+            <Plus size={20} color={COLORS.primary} />
             <Text className="text-foreground font-bold text-xs">Transferir</Text>
           </TouchableOpacity>
         </View>
@@ -299,8 +314,8 @@ export const DashboardScreen: React.FC = () => {
       {creditCards.length > 0 && (
         <Card variant="glass" className="mb-6" onPress={() => {}}>
           <View className="flex-row items-center justify-between mb-3">
-            <View className="flex-row items-center">
-              <CreditCard size={18} color={COLORS.primary} className="mr-2" />
+            <View className="flex-row items-center gap-2">
+              <CreditCard size={18} color={COLORS.primary} />
               <Text className="text-foreground font-bold text-sm">Fatura Aberta Total</Text>
             </View>
             <Text className="text-foreground-muted text-xs font-semibold">Ver detalhes</Text>
@@ -368,7 +383,7 @@ export const DashboardScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="space-y-3">
+        <View className="gap-3">
           {transactions.slice(0, 4).map((tx) => {
             const cat = categories.find(c => c.id === tx.category_id);
             const isExpense = tx.type === 'expense';

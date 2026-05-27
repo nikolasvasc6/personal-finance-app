@@ -204,24 +204,31 @@ export const AccountsScreen: React.FC = () => {
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         {activeTab === 'accounts' ? (
           // LISTAGEM DE CONTAS
-          <View className="space-y-4 pb-10">
+          <View className="gap-4 pb-10">
             {accounts.map((acc) => (
               <Card key={acc.id} variant="glass" className="relative flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center flex-1 pr-6">
-                  <View 
+                  <View
                     className="w-12 h-12 rounded-2xl items-center justify-center mr-4"
                     style={{ backgroundColor: `${acc.color}15` }}
                   >
                     <Landmark size={24} color={acc.color} />
                   </View>
-                  <View>
-                    <Text className="text-foreground font-bold text-base">{acc.name}</Text>
+                  <View className="flex-1">
+                    <Text className="text-foreground font-bold text-base" numberOfLines={1}>{acc.name}</Text>
                     <Text className="text-foreground-muted text-xs capitalize mt-0.5">{acc.type === 'checking' ? 'Conta Corrente' : acc.type}</Text>
                   </View>
                 </View>
-                
+
                 <View className="items-end">
-                  <Text className="text-foreground font-black text-base">{formatCurrency(acc.balance)}</Text>
+                  <Text
+                    className="text-foreground font-black text-base"
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.75}
+                  >
+                    {formatCurrency(acc.balance)}
+                  </Text>
                   <TouchableOpacity
                     onPress={() => setConfirmDeleteAccount(acc)}
                     className="mt-2"
@@ -240,7 +247,7 @@ export const AccountsScreen: React.FC = () => {
           </View>
         ) : (
           // LISTAGEM DE CARTÕES DE CRÉDITO
-          <View className="space-y-6 pb-10">
+          <View className="gap-6 pb-10">
             {creditCards.map((card) => {
               // Buscar faturas deste cartão
               const cardInvoices = invoices.filter(i => i.credit_card_id === card.id);
@@ -261,20 +268,34 @@ export const AccountsScreen: React.FC = () => {
                       <Text className="text-white text-base font-extrabold italic">{card.brand}</Text>
                     </View>
 
-                    <View className="absolute bottom-6 left-6 right-6 flex-row justify-between items-end">
-                      <View>
+                    <View className="absolute bottom-6 left-6 right-6 flex-row justify-between items-end gap-3">
+                      <View className="flex-1">
                         <Text className="text-white/70 text-[10px] font-semibold uppercase">Limite Disponível</Text>
-                        <Text className="text-white text-base font-extrabold">{formatCurrency(card.limit_available)}</Text>
+                        <Text
+                          className="text-white text-base font-extrabold"
+                          numberOfLines={1}
+                          adjustsFontSizeToFit
+                          minimumFontScale={0.75}
+                        >
+                          {formatCurrency(card.limit_available)}
+                        </Text>
                       </View>
-                      <View className="items-end">
+                      <View className="items-end flex-1">
                         <Text className="text-white/70 text-[10px] font-semibold uppercase">Total</Text>
-                        <Text className="text-white text-sm font-bold">{formatCurrency(card.limit_total)}</Text>
+                        <Text
+                          className="text-white text-sm font-bold"
+                          numberOfLines={1}
+                          adjustsFontSizeToFit
+                          minimumFontScale={0.75}
+                        >
+                          {formatCurrency(card.limit_total)}
+                        </Text>
                       </View>
                     </View>
                   </View>
 
                   {/* Faturas Relacionadas */}
-                  <View className="bg-white/85 border border-white/70 p-5 rounded-3xl space-y-4">
+                  <View className="bg-white/85 border border-white/70 p-5 rounded-3xl gap-4">
                     <View className="flex-row items-center justify-between pb-3 border-b border-border">
                       <Text className="text-foreground font-bold text-sm">Fatura Atual</Text>
                       <Text className="text-foreground-muted text-xs">Vence dia {card.due_day}</Text>
@@ -287,7 +308,14 @@ export const AccountsScreen: React.FC = () => {
                           onPress={() => openInvoiceDetail(openInvoice, card)}
                           className="flex-1 pr-3"
                         >
-                          <Text className="text-foreground text-xl font-black">{formatCurrency(openInvoice.amount)}</Text>
+                          <Text
+                            className="text-foreground text-xl font-black"
+                            numberOfLines={1}
+                            adjustsFontSizeToFit
+                            minimumFontScale={0.75}
+                          >
+                            {formatCurrency(openInvoice.amount)}
+                          </Text>
                           <Text className="text-foreground-muted text-xs mt-1">Fechamento: {formatDate(openInvoice.closing_date)}</Text>
                           <Text className="text-primary text-[10px] font-bold mt-1 uppercase tracking-wider">Ver resumo</Text>
                         </TouchableOpacity>
@@ -324,9 +352,9 @@ export const AccountsScreen: React.FC = () => {
 
                     <TouchableOpacity
                       onPress={() => setConfirmDeleteCard(card)}
-                      className="flex-row items-center justify-center pt-3 border-t border-border"
+                      className="flex-row items-center justify-center pt-3 border-t border-border gap-2"
                     >
-                      <Trash2 size={16} color={COLORS.danger} className="mr-2" />
+                      <Trash2 size={16} color={COLORS.danger} />
                       <Text className="text-danger text-xs font-bold">Excluir Cartão</Text>
                     </TouchableOpacity>
                   </View>
@@ -344,7 +372,7 @@ export const AccountsScreen: React.FC = () => {
 
       {/* MODAL CRIAR CONTA */}
       <Modal visible={accountModalVisible} onClose={() => setAccountModalVisible(false)} title="Nova Conta">
-        <ScrollView className="space-y-4" keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ gap: 16 }} keyboardShouldPersistTaps="handled">
           <Controller
             control={accountControl}
             name="name"
@@ -421,7 +449,7 @@ export const AccountsScreen: React.FC = () => {
 
       {/* MODAL CRIAR CARTÃO */}
       <Modal visible={cardModalVisible} onClose={() => setCardModalVisible(false)} title="Novo Cartão">
-        <ScrollView className="space-y-4" keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={{ gap: 16 }} keyboardShouldPersistTaps="handled">
           <Controller
             control={cardControl}
             name="name"
@@ -453,7 +481,7 @@ export const AccountsScreen: React.FC = () => {
             )}
           />
 
-          <View className="flex-row space-x-4">
+          <View className="flex-row gap-4">
             <View className="flex-1">
               <Controller
                 control={cardControl}
@@ -516,7 +544,7 @@ export const AccountsScreen: React.FC = () => {
       {/* MODAL PAGAR FATURA (SELECIONAR CONTA) */}
       <Modal visible={payInvoiceModalVisible} onClose={() => setPayInvoiceModalVisible(false)} title="Pagar Fatura">
         <Text className="text-foreground-muted text-sm mb-4">Escolha a conta corrente para debitar o valor da fatura:</Text>
-        <View className="space-y-3">
+        <View className="gap-3">
           {accounts.map((acc) => (
             <TouchableOpacity
               key={acc.id}

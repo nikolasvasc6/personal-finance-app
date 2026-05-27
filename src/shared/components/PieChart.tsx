@@ -95,7 +95,7 @@ export const PieChart: React.FC<PieChartProps> = ({
       </View>
 
       {/* Legendas */}
-      <View className="flex-1 ml-6 space-y-2">
+      <View className="flex-1 ml-6 gap-2">
         {filteredData.slice(0, 5).map((item, index) => (
           <View key={index} className="flex-row items-center justify-between mb-1.5">
             <View className="flex-row items-center flex-1 pr-2">

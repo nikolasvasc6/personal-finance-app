@@ -97,7 +97,7 @@ export const TransactionsScreen: React.FC = () => {
 
       {/* Lista de Transações */}
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1 pb-6">
-        <View className="space-y-3 pb-10">
+        <View className="gap-3 pb-10">
           {filteredTransactions.map((tx) => {
             const cat = categories.find((c) => c.id === tx.category_id);
             const isExpense = tx.type === 'expense';

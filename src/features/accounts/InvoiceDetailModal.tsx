@@ -117,15 +117,20 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
           </View>
         </View>
 
-        <Text className="text-foreground text-3xl font-black tracking-tight">
+        <Text
+          className="text-foreground text-3xl font-black tracking-tight"
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.7}
+        >
           {formatCurrency(invoice.amount)}
         </Text>
         {invoice.status === 'paid' ? (
-          <Text className="text-success text-xs font-bold mt-1">
+          <Text className="text-success text-xs font-bold mt-1" numberOfLines={1}>
             Pago: {formatCurrency(invoice.paid_amount)}
           </Text>
         ) : (
-          <Text className="text-foreground-muted text-xs font-semibold mt-1">
+          <Text className="text-foreground-muted text-xs font-semibold mt-1" numberOfLines={1}>
             Em aberto: {formatCurrency(remaining)}
           </Text>
         )}

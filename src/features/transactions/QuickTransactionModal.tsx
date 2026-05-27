@@ -195,7 +195,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
 
   return (
     <Modal visible={visible} onClose={onClose} title={isEditing ? 'Editar Transação' : 'Nova Transação'}>
-      <ScrollView className="space-y-4" keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={{ gap: 16 }} keyboardShouldPersistTaps="handled">
         {/* Seletor de Tipo (Receita / Despesa / Transferência) */}
         <View className="flex-row bg-surface-muted p-1.5 rounded-2xl mb-6">
           {(['expense', 'income', 'transfer'] as const).map((t) => {
@@ -369,7 +369,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
 
         {/* CARTÃO DE CRÉDITO E PARCELAMENTO */}
         {currentType === 'expense' && currentPaymentMethod === 'credit' && (
-          <View className="space-y-4">
+          <View className="gap-4">
             <View className="mb-2">
               <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Selecione o Cartão</Text>
               <View className="flex-row flex-wrap gap-2">

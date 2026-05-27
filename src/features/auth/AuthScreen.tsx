@@ -103,7 +103,7 @@ export const AuthScreen: React.FC = () => {
           </View>
 
           {/* Features Carrossel visual */}
-          <View className="space-y-6 my-8">
+          <View className="gap-6 my-8">
             <View className="flex-row items-center bg-white/80 border border-white/70 p-4 rounded-2xl">
               <View className="bg-success/10 p-3 rounded-xl mr-4">
                 <Shield size={24} color={COLORS.success} />
@@ -126,7 +126,7 @@ export const AuthScreen: React.FC = () => {
           </View>
 
           {/* Botões de Ação */}
-          <View className="space-y-4">
+          <View className="gap-4">
             <Button
               label="Criar minha conta"
               variant="primary"

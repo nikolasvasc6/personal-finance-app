@@ -7,6 +7,7 @@ import { supabase } from '../../core/supabase';
 import { Card } from '../../shared/components/Card';
 import { ScreenBackground } from '../../shared/components/ScreenBackground';
 import { Button } from '../../shared/components/Button';
+import { Modal } from '../../shared/components/Modal';
 import { COLORS } from '../../core/theme';
 
 export const SettingsScreen: React.FC = () => {
@@ -14,6 +15,8 @@ export const SettingsScreen: React.FC = () => {
   const { fetchData } = useFinanceStore();
   const [biometrics, setBiometrics] = useState(profile?.biometrics_enabled || false);
   const [loadingMock, setLoadingMock] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
 
   const handleToggleBiometrics = async (value: boolean) => {
     setBiometrics(value);
@@ -26,10 +29,18 @@ export const SettingsScreen: React.FC = () => {
   };
 
   const handleSignOut = () => {
-    Alert.alert('Sair da Conta', 'Deseja realmente sair da sua conta?', [
-      { text: 'Cancelar', style: 'cancel' },
-      { text: 'Sair', style: 'destructive', onPress: signOut }
-    ]);
+    setConfirmLogout(true);
+  };
+
+  // Confirma logout via Modal (Alert.alert com callback nao dispara em react-native-web)
+  const handleConfirmLogout = async () => {
+    setSigningOut(true);
+    try {
+      await signOut();
+      setConfirmLogout(false);
+    } finally {
+      setSigningOut(false);
+    }
   };
 
   // Carrega massa de testes mock para preencher gráficos e tabelas instantaneamente no MVP
@@ -226,11 +237,11 @@ export const SettingsScreen: React.FC = () => {
       </Card>
 
       {/* Lista de Opções */}
-      <View className="space-y-4">
+      <View className="gap-4">
         {/* Opção Biometria */}
         <Card variant="glass" className="flex-row items-center justify-between py-4 mb-3">
-          <View className="flex-row items-center">
-            <Shield size={20} color={COLORS.primary} className="mr-3" />
+          <View className="flex-row items-center gap-3 flex-1 pr-3">
+            <Shield size={20} color={COLORS.primary} />
             <Text className="text-foreground text-base font-semibold">Autenticação Biométrica</Text>
           </View>
           <Switch
@@ -243,9 +254,9 @@ export const SettingsScreen: React.FC = () => {
 
         {/* Opção Popular Banco (Massa de Testes) */}
         <Card variant="glass" className="flex-row items-center justify-between py-4 mb-3" onPress={handleLoadMockData}>
-          <View className="flex-row items-center">
-            <Database size={20} color={COLORS.success} className="mr-3" />
-            <View>
+          <View className="flex-row items-center gap-3 flex-1 pr-3">
+            <Database size={20} color={COLORS.success} />
+            <View className="flex-1">
               <Text className="text-foreground text-base font-semibold">Massa de Testes (Mock)</Text>
               <Text className="text-foreground-muted text-xs mt-0.5">Preencher banco com dados fictícios</Text>
             </View>
@@ -262,6 +273,41 @@ export const SettingsScreen: React.FC = () => {
           className="mt-6 border-danger/40 py-4"
         />
       </View>
+
+      {/* Confirmação de Logout — Modal porque Alert.alert nao dispara callbacks em react-native-web */}
+      <Modal
+        visible={confirmLogout}
+        onClose={() => !signingOut && setConfirmLogout(false)}
+        title="Sair da Conta"
+      >
+        <View className="pb-4">
+          <Text className="text-foreground text-base mb-2">
+            Deseja realmente sair da sua conta?
+          </Text>
+          <Text className="text-foreground-muted text-sm mb-8">
+            Você precisará entrar novamente para acessar suas finanças.
+          </Text>
+
+          <View className="flex-row gap-3">
+            <View className="flex-1">
+              <Button
+                label="Cancelar"
+                variant="outline"
+                onPress={() => setConfirmLogout(false)}
+                disabled={signingOut}
+              />
+            </View>
+            <View className="flex-1">
+              <Button
+                label="Sair"
+                variant="danger"
+                onPress={handleConfirmLogout}
+                loading={signingOut}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
       </View>
     </ScreenBackground>
   );

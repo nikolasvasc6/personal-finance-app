@@ -344,9 +344,9 @@ export const AccountsScreen: React.FC = () => {
 
                     <TouchableOpacity
                       onPress={() => setConfirmDeleteCard(card)}
-                      className="flex-row items-center justify-center pt-3 border-t border-border gap-2"
+                      className="flex-row items-center justify-center pt-3 border-t border-border"
                     >
-                      <Trash2 size={16} color={COLORS.danger} />
+                      <Trash2 size={16} color={COLORS.danger} style={{ marginRight: 8 }} />
                       <Text className="text-danger text-xs font-bold">Excluir Cartão</Text>
                     </TouchableOpacity>
                   </View>

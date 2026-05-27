@@ -279,27 +279,27 @@ export const DashboardScreen: React.FC = () => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('expense')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center gap-2"
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
           >
-            <ArrowDownRight size={20} color={COLORS.danger} />
+            <ArrowDownRight size={20} color={COLORS.danger} style={{ marginRight: 8 }} />
             <Text className="text-foreground font-bold text-xs">Pagar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('income')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center gap-2"
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
           >
-            <ArrowUpRight size={20} color={COLORS.success} />
+            <ArrowUpRight size={20} color={COLORS.success} style={{ marginRight: 8 }} />
             <Text className="text-foreground font-bold text-xs">Receber</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('transfer')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center gap-2"
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
           >
-            <Plus size={20} color={COLORS.primary} />
+            <Plus size={20} color={COLORS.primary} style={{ marginRight: 8 }} />
             <Text className="text-foreground font-bold text-xs">Transferir</Text>
           </TouchableOpacity>
         </View>
@@ -308,8 +308,8 @@ export const DashboardScreen: React.FC = () => {
       {creditCards.length > 0 && (
         <Card variant="glass" className="mb-6" onPress={() => {}}>
           <View className="flex-row items-center justify-between mb-3">
-            <View className="flex-row items-center gap-2">
-              <CreditCard size={18} color={COLORS.primary} />
+            <View className="flex-row items-center">
+              <CreditCard size={18} color={COLORS.primary} style={{ marginRight: 8 }} />
               <Text className="text-foreground font-bold text-sm">Fatura Aberta Total</Text>
             </View>
             <Text className="text-foreground-muted text-xs font-semibold">Ver detalhes</Text>

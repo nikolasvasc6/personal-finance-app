@@ -240,8 +240,8 @@ export const SettingsScreen: React.FC = () => {
       <View className="gap-4">
         {/* Opção Biometria */}
         <Card variant="glass" className="flex-row items-center justify-between py-4 mb-3">
-          <View className="flex-row items-center gap-3 flex-1 pr-3">
-            <Shield size={20} color={COLORS.primary} />
+          <View className="flex-row items-center flex-1 pr-3">
+            <Shield size={20} color={COLORS.primary} style={{ marginRight: 12 }} />
             <Text className="text-foreground text-base font-semibold">Autenticação Biométrica</Text>
           </View>
           <Switch
@@ -254,8 +254,8 @@ export const SettingsScreen: React.FC = () => {
 
         {/* Opção Popular Banco (Massa de Testes) */}
         <Card variant="glass" className="flex-row items-center justify-between py-4 mb-3" onPress={handleLoadMockData}>
-          <View className="flex-row items-center gap-3 flex-1 pr-3">
-            <Database size={20} color={COLORS.success} />
+          <View className="flex-row items-center flex-1 pr-3">
+            <Database size={20} color={COLORS.success} style={{ marginRight: 12 }} />
             <View className="flex-1">
               <Text className="text-foreground text-base font-semibold">Massa de Testes (Mock)</Text>
               <Text className="text-foreground-muted text-xs mt-0.5">Preencher banco com dados fictícios</Text>

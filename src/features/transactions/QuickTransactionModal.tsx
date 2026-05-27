@@ -257,24 +257,35 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
         {/* Seletor de Categoria */}
         <View className="mb-5">
           <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Categoria</Text>
-          <View className="flex-row flex-wrap gap-2">
-            {filteredCategories.map((c) => {
-              const isSelected = watch('categoryId') === c.id;
-              return (
-                <TouchableOpacity
-                  key={c.id}
-                  className={`px-4 py-2.5 rounded-full border ${
-                    isSelected ? 'bg-primary border-primary' : 'bg-surface border-border'
-                  }`}
-                  onPress={() => setValue('categoryId', c.id)}
-                >
-                  <Text className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-foreground-muted'}`}>
-                    {c.name}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          {filteredCategories.length === 0 ? (
+            <View className="bg-warning-soft border border-warning/30 rounded-2xl p-4">
+              <Text className="text-foreground text-xs font-semibold">
+                Nenhuma categoria disponível para este tipo de transação.
+              </Text>
+              <Text className="text-foreground-muted text-[11px] mt-1">
+                Verifique se as categorias padrão foram criadas no Supabase ou cadastre uma manualmente.
+              </Text>
+            </View>
+          ) : (
+            <View className="flex-row flex-wrap gap-2">
+              {filteredCategories.map((c) => {
+                const isSelected = watch('categoryId') === c.id;
+                return (
+                  <TouchableOpacity
+                    key={c.id}
+                    className={`px-4 py-2.5 rounded-full border ${
+                      isSelected ? 'bg-primary border-primary' : 'bg-surface border-border'
+                    }`}
+                    onPress={() => setValue('categoryId', c.id)}
+                  >
+                    <Text className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-foreground-muted'}`}>
+                      {c.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
           {errors.categoryId && (
             <Text className="text-danger text-xs mt-1 pl-1">{errors.categoryId.message}</Text>
           )}
@@ -311,29 +322,40 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
             <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">
               {currentType === 'transfer' ? 'Conta de Origem' : 'Conta/Carteira'}
             </Text>
-            <View className="flex-row flex-wrap gap-2">
-              {accounts.map((a) => {
-                const isSelected = watch('accountId') === a.id;
-                return (
-                  <TouchableOpacity
-                    key={a.id}
-                    className={`px-4 py-3 rounded-2xl border flex-row items-center ${
-                      isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
-                    }`}
-                    style={{ minWidth: '45%' }}
-                    onPress={() => setValue('accountId', a.id)}
-                  >
-                    <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: a.color }} />
-                    <View>
-                      <Text className="text-foreground text-xs font-bold">{a.name}</Text>
-                      <Text className="text-foreground-muted text-[10px]">
-                        Saldo: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(a.balance)}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+            {accounts.length === 0 ? (
+              <View className="bg-warning-soft border border-warning/30 rounded-2xl p-4">
+                <Text className="text-foreground text-xs font-semibold">
+                  Você ainda não tem contas cadastradas.
+                </Text>
+                <Text className="text-foreground-muted text-[11px] mt-1">
+                  Vá em Contas → Nova Conta para criar uma carteira/conta corrente antes de lançar transações.
+                </Text>
+              </View>
+            ) : (
+              <View className="flex-row flex-wrap gap-2">
+                {accounts.map((a) => {
+                  const isSelected = watch('accountId') === a.id;
+                  return (
+                    <TouchableOpacity
+                      key={a.id}
+                      className={`px-4 py-3 rounded-2xl border flex-row items-center ${
+                        isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
+                      }`}
+                      style={{ minWidth: '45%' }}
+                      onPress={() => setValue('accountId', a.id)}
+                    >
+                      <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: a.color }} />
+                      <View>
+                        <Text className="text-foreground text-xs font-bold">{a.name}</Text>
+                        <Text className="text-foreground-muted text-[10px]">
+                          Saldo: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(a.balance)}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            )}
           </View>
         ) : null}
 
@@ -372,29 +394,40 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
           <View className="gap-4">
             <View className="mb-2">
               <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Selecione o Cartão</Text>
-              <View className="flex-row flex-wrap gap-2">
-                {creditCards.map((c) => {
-                  const isSelected = watch('creditCardId') === c.id;
-                  return (
-                    <TouchableOpacity
-                      key={c.id}
-                      className={`px-4 py-3 rounded-2xl border flex-row items-center ${
-                        isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
-                      }`}
-                      style={{ minWidth: '45%' }}
-                      onPress={() => setValue('creditCardId', c.id)}
-                    >
-                      <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: c.color }} />
-                      <View>
-                        <Text className="text-foreground text-xs font-bold">{c.name}</Text>
-                        <Text className="text-foreground-muted text-[10px]">
-                          Lmt Disp: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c.limit_available)}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+              {creditCards.length === 0 ? (
+                <View className="bg-warning-soft border border-warning/30 rounded-2xl p-4">
+                  <Text className="text-foreground text-xs font-semibold">
+                    Nenhum cartão de crédito cadastrado.
+                  </Text>
+                  <Text className="text-foreground-muted text-[11px] mt-1">
+                    Vá em Contas → Cartões → Novo Cartão para registrar um cartão antes de lançar compras parceladas.
+                  </Text>
+                </View>
+              ) : (
+                <View className="flex-row flex-wrap gap-2">
+                  {creditCards.map((c) => {
+                    const isSelected = watch('creditCardId') === c.id;
+                    return (
+                      <TouchableOpacity
+                        key={c.id}
+                        className={`px-4 py-3 rounded-2xl border flex-row items-center ${
+                          isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
+                        }`}
+                        style={{ minWidth: '45%' }}
+                        onPress={() => setValue('creditCardId', c.id)}
+                      >
+                        <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: c.color }} />
+                        <View>
+                          <Text className="text-foreground text-xs font-bold">{c.name}</Text>
+                          <Text className="text-foreground-muted text-[10px]">
+                            Lmt Disp: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c.limit_available)}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
             </View>
 
             {/* Esconder parcelas quando for recorrência — assinatura é sempre 1x mensal */}

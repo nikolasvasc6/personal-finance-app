@@ -249,8 +249,6 @@ export const DashboardScreen: React.FC = () => {
               <Text
                 className="text-white text-sm font-bold"
                 numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.75}
               >
                 {hideValues ? '••••' : `+ ${formatCurrency(totalIncomes)}`}
               </Text>
@@ -260,8 +258,6 @@ export const DashboardScreen: React.FC = () => {
               <Text
                 className="text-white text-sm font-bold"
                 numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.75}
               >
                 {hideValues ? '••••' : `- ${formatCurrency(totalExpenses)}`}
               </Text>
@@ -271,8 +267,6 @@ export const DashboardScreen: React.FC = () => {
               <Text
                 className="text-white text-sm font-bold"
                 numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.75}
               >
                 {hideValues ? '••••' : formatCurrency(savings)}
               </Text>

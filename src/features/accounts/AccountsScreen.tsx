@@ -224,8 +224,6 @@ export const AccountsScreen: React.FC = () => {
                   <Text
                     className="text-foreground font-black text-base"
                     numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.75}
                   >
                     {formatCurrency(acc.balance)}
                   </Text>
@@ -274,8 +272,6 @@ export const AccountsScreen: React.FC = () => {
                         <Text
                           className="text-white text-base font-extrabold"
                           numberOfLines={1}
-                          adjustsFontSizeToFit
-                          minimumFontScale={0.75}
                         >
                           {formatCurrency(card.limit_available)}
                         </Text>
@@ -285,8 +281,6 @@ export const AccountsScreen: React.FC = () => {
                         <Text
                           className="text-white text-sm font-bold"
                           numberOfLines={1}
-                          adjustsFontSizeToFit
-                          minimumFontScale={0.75}
                         >
                           {formatCurrency(card.limit_total)}
                         </Text>
@@ -311,8 +305,6 @@ export const AccountsScreen: React.FC = () => {
                           <Text
                             className="text-foreground text-xl font-black"
                             numberOfLines={1}
-                            adjustsFontSizeToFit
-                            minimumFontScale={0.75}
                           >
                             {formatCurrency(openInvoice.amount)}
                           </Text>

@@ -120,8 +120,6 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
         <Text
           className="text-foreground text-3xl font-black tracking-tight"
           numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.7}
         >
           {formatCurrency(invoice.amount)}
         </Text>

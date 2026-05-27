@@ -17,8 +17,8 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      {/* Barra de status clara para contrastar com o fundo escuro (Dark Mode) */}
-      <StatusBar style="light" />
+      {/* Barra de status escura para contrastar com o fundo claro (Light Mode) */}
+      <StatusBar style="dark" />
       <Navigation />
     </SafeAreaProvider>
   );

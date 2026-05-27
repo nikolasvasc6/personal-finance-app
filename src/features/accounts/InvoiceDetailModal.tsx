@@ -102,7 +102,7 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
         <View className="flex-row items-center justify-between mb-3">
           <View className="flex-row items-center">
             <Calendar size={14} color={card.color} />
-            <Text className="text-white text-xs font-bold uppercase tracking-wider ml-2">
+            <Text className="text-foreground text-xs font-bold uppercase tracking-wider ml-2">
               {formatMonthFull(invoice.period)}
             </Text>
           </View>
@@ -117,7 +117,7 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
           </View>
         </View>
 
-        <Text className="text-white text-3xl font-black tracking-tight">
+        <Text className="text-foreground text-3xl font-black tracking-tight">
           {formatCurrency(invoice.amount)}
         </Text>
         {invoice.status === 'paid' ? (
@@ -125,36 +125,36 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
             Pago: {formatCurrency(invoice.paid_amount)}
           </Text>
         ) : (
-          <Text className="text-textMutedDark text-xs font-semibold mt-1">
+          <Text className="text-foreground-muted text-xs font-semibold mt-1">
             Em aberto: {formatCurrency(remaining)}
           </Text>
         )}
 
-        <View className="flex-row justify-between border-t border-white/10 mt-4 pt-3">
+        <View className="flex-row justify-between border-t border-slate-900/10 mt-4 pt-3">
           <View>
-            <Text className="text-textMutedDark text-[10px] font-bold uppercase tracking-wider">Fechamento</Text>
-            <Text className="text-white text-xs font-bold mt-0.5">{formatDate(invoice.closing_date)}</Text>
+            <Text className="text-foreground-muted text-[10px] font-bold uppercase tracking-wider">Fechamento</Text>
+            <Text className="text-foreground text-xs font-bold mt-0.5">{formatDate(invoice.closing_date)}</Text>
           </View>
           <View>
-            <Text className="text-textMutedDark text-[10px] font-bold uppercase tracking-wider">Vencimento</Text>
-            <Text className="text-white text-xs font-bold mt-0.5">{formatDate(invoice.due_date)}</Text>
+            <Text className="text-foreground-muted text-[10px] font-bold uppercase tracking-wider">Vencimento</Text>
+            <Text className="text-foreground text-xs font-bold mt-0.5">{formatDate(invoice.due_date)}</Text>
           </View>
           <View>
-            <Text className="text-textMutedDark text-[10px] font-bold uppercase tracking-wider">Lançamentos</Text>
-            <Text className="text-white text-xs font-bold mt-0.5">{lines.length}</Text>
+            <Text className="text-foreground-muted text-[10px] font-bold uppercase tracking-wider">Lançamentos</Text>
+            <Text className="text-foreground text-xs font-bold mt-0.5">{lines.length}</Text>
           </View>
         </View>
       </View>
 
       {/* Lista de transações da fatura */}
-      <Text className="text-textMutedDark text-xs font-bold uppercase tracking-wider mb-3">
+      <Text className="text-foreground-muted text-xs font-bold uppercase tracking-wider mb-3">
         Detalhamento
       </Text>
 
       {lines.length === 0 ? (
         <View className="items-center py-12">
-          <Receipt size={32} color={COLORS.textMutedDark} />
-          <Text className="text-textMutedDark text-sm mt-3 font-semibold">
+          <Receipt size={32} color={COLORS.foregroundMuted} />
+          <Text className="text-foreground-muted text-sm mt-3 font-semibold">
             Nenhum lançamento nesta fatura
           </Text>
         </View>
@@ -165,7 +165,7 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
             return (
               <View
                 key={line.key}
-                className="flex-row items-center justify-between bg-surface-darkMuted border border-border-dark rounded-2xl p-3.5 mb-2"
+                className="flex-row items-center justify-between bg-surface-muted border border-border rounded-2xl p-3.5 mb-2"
               >
                 <View className="flex-row items-center flex-1 pr-3">
                   <View
@@ -176,7 +176,7 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
                   </View>
                   <View className="flex-1">
                     <View className="flex-row items-center">
-                      <Text className="text-white text-sm font-bold flex-shrink" numberOfLines={1}>
+                      <Text className="text-foreground text-sm font-bold flex-shrink" numberOfLines={1}>
                         {line.description}
                       </Text>
                       {line.installmentLabel && (
@@ -192,12 +192,12 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
                         </View>
                       )}
                     </View>
-                    <Text className="text-textMutedDark text-[11px] mt-0.5">
+                    <Text className="text-foreground-muted text-[11px] mt-0.5">
                       {cat?.name || 'Geral'} • {formatDate(line.date)}
                     </Text>
                   </View>
                 </View>
-                <Text className="text-white text-sm font-extrabold">
+                <Text className="text-foreground text-sm font-extrabold">
                   {formatCurrency(line.value)}
                 </Text>
               </View>
@@ -205,11 +205,11 @@ export const InvoiceDetailModal: React.FC<InvoiceDetailModalProps> = ({
           })}
 
           {/* Total */}
-          <View className="mt-3 pt-4 border-t border-border-dark flex-row justify-between items-center">
-            <Text className="text-textMutedDark text-xs font-bold uppercase tracking-wider">
+          <View className="mt-3 pt-4 border-t border-border flex-row justify-between items-center">
+            <Text className="text-foreground-muted text-xs font-bold uppercase tracking-wider">
               Total da Fatura
             </Text>
-            <Text className="text-white text-base font-black">
+            <Text className="text-foreground text-base font-black">
               {formatCurrency(invoice.amount)}
             </Text>
           </View>

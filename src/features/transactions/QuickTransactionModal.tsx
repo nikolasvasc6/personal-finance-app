@@ -197,25 +197,28 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
     <Modal visible={visible} onClose={onClose} title={isEditing ? 'Editar Transação' : 'Nova Transação'}>
       <ScrollView className="space-y-4" keyboardShouldPersistTaps="handled">
         {/* Seletor de Tipo (Receita / Despesa / Transferência) */}
-        <View className="flex-row bg-surface-darkMuted p-1.5 rounded-2xl mb-6">
-          {(['expense', 'income', 'transfer'] as const).map((t) => (
-            <TouchableOpacity
-              key={t}
-              className={`flex-1 py-3 rounded-xl items-center ${
-                currentType === t 
-                  ? (t === 'income' ? 'bg-success' : (t === 'expense' ? 'bg-danger' : 'bg-primary')) 
-                  : 'bg-transparent'
-              }`}
-              onPress={() => {
-                setValue('type', t);
-                setValue('paymentMethod', t === 'income' ? 'pix' : 'debit');
-              }}
-            >
-              <Text className="text-white font-bold capitalize">
-                {t === 'expense' ? 'Despesa' : (t === 'income' ? 'Receita' : 'Transf.')}
-              </Text>
-            </TouchableOpacity>
-          ))}
+        <View className="flex-row bg-surface-muted p-1.5 rounded-2xl mb-6">
+          {(['expense', 'income', 'transfer'] as const).map((t) => {
+            const isActive = currentType === t;
+            return (
+              <TouchableOpacity
+                key={t}
+                className={`flex-1 py-3 rounded-xl items-center ${
+                  isActive
+                    ? (t === 'income' ? 'bg-success' : (t === 'expense' ? 'bg-danger' : 'bg-primary'))
+                    : 'bg-transparent'
+                }`}
+                onPress={() => {
+                  setValue('type', t);
+                  setValue('paymentMethod', t === 'income' ? 'pix' : 'debit');
+                }}
+              >
+                <Text className={`font-bold capitalize ${isActive ? 'text-white' : 'text-foreground-muted'}`}>
+                  {t === 'expense' ? 'Despesa' : (t === 'income' ? 'Receita' : 'Transf.')}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         {/* Input de Valor */}
@@ -253,7 +256,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
 
         {/* Seletor de Categoria */}
         <View className="mb-5">
-          <Text className="text-textMutedDark text-sm font-medium mb-2 pl-1">Categoria</Text>
+          <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Categoria</Text>
           <View className="flex-row flex-wrap gap-2">
             {filteredCategories.map((c) => {
               const isSelected = watch('categoryId') === c.id;
@@ -261,11 +264,11 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
                 <TouchableOpacity
                   key={c.id}
                   className={`px-4 py-2.5 rounded-full border ${
-                    isSelected ? 'bg-primary border-primary' : 'bg-surface-dark border-border-dark'
+                    isSelected ? 'bg-primary border-primary' : 'bg-surface border-border'
                   }`}
                   onPress={() => setValue('categoryId', c.id)}
                 >
-                  <Text className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-textMutedDark'}`}>
+                  <Text className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-foreground-muted'}`}>
                     {c.name}
                   </Text>
                 </TouchableOpacity>
@@ -280,8 +283,8 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
         {/* Configurações de Meio de Pagamento */}
         {currentType !== 'transfer' && (
           <View className="mb-5">
-            <Text className="text-textMutedDark text-sm font-medium mb-2 pl-1">Forma de Pagamento</Text>
-            <View className="flex-row bg-surface-darkMuted p-1.5 rounded-2xl">
+            <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Forma de Pagamento</Text>
+            <View className="flex-row bg-surface-muted p-1.5 rounded-2xl">
               {(currentType === 'expense' ? ['debit', 'credit', 'pix', 'cash'] : ['pix', 'debit', 'cash']).map((method) => {
                 const isSelected = currentPaymentMethod === method;
                 return (
@@ -292,7 +295,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
                     }`}
                     onPress={() => setValue('paymentMethod', method as any)}
                   >
-                    <Text className="text-white text-xs font-bold capitalize">
+                    <Text className={`text-xs font-bold capitalize ${isSelected ? 'text-white' : 'text-foreground-muted'}`}>
                       {method === 'credit' ? 'Crédito' : (method === 'debit' ? 'Débito' : method.toUpperCase())}
                     </Text>
                   </TouchableOpacity>
@@ -305,7 +308,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
         {/* CONTA DE ORIGEM (se não for crédito e não for transferência simples sem conta) */}
         {currentType === 'transfer' || (currentType !== 'transfer' && currentPaymentMethod !== 'credit') ? (
           <View className="mb-5">
-            <Text className="text-textMutedDark text-sm font-medium mb-2 pl-1">
+            <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">
               {currentType === 'transfer' ? 'Conta de Origem' : 'Conta/Carteira'}
             </Text>
             <View className="flex-row flex-wrap gap-2">
@@ -315,15 +318,15 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
                   <TouchableOpacity
                     key={a.id}
                     className={`px-4 py-3 rounded-2xl border flex-row items-center ${
-                      isSelected ? 'bg-primary/20 border-primary' : 'bg-surface-dark border-border-dark'
+                      isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
                     }`}
                     style={{ minWidth: '45%' }}
                     onPress={() => setValue('accountId', a.id)}
                   >
                     <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: a.color }} />
                     <View>
-                      <Text className="text-white text-xs font-bold">{a.name}</Text>
-                      <Text className="text-textMutedDark text-[10px]">
+                      <Text className="text-foreground text-xs font-bold">{a.name}</Text>
+                      <Text className="text-foreground-muted text-[10px]">
                         Saldo: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(a.balance)}
                       </Text>
                     </View>
@@ -337,7 +340,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
         {/* CONTA DE DESTINO (Apenas para Transferências) */}
         {currentType === 'transfer' && (
           <View className="mb-5">
-            <Text className="text-textMutedDark text-sm font-medium mb-2 pl-1">Conta de Destino</Text>
+            <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Conta de Destino</Text>
             <View className="flex-row flex-wrap gap-2">
               {accounts.map((a) => {
                 const isSelected = watch('transferTargetAccountId') === a.id;
@@ -345,15 +348,15 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
                   <TouchableOpacity
                     key={a.id}
                     className={`px-4 py-3 rounded-2xl border flex-row items-center ${
-                      isSelected ? 'bg-primary/20 border-primary' : 'bg-surface-dark border-border-dark'
+                      isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
                     }`}
                     style={{ minWidth: '45%' }}
                     onPress={() => setValue('transferTargetAccountId', a.id)}
                   >
                     <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: a.color }} />
                     <View>
-                      <Text className="text-white text-xs font-bold">{a.name}</Text>
-                      <Text className="text-textMutedDark text-[10px]">
+                      <Text className="text-foreground text-xs font-bold">{a.name}</Text>
+                      <Text className="text-foreground-muted text-[10px]">
                         Saldo: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(a.balance)}
                       </Text>
                     </View>
@@ -368,7 +371,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
         {currentType === 'expense' && currentPaymentMethod === 'credit' && (
           <View className="space-y-4">
             <View className="mb-2">
-              <Text className="text-textMutedDark text-sm font-medium mb-2 pl-1">Selecione o Cartão</Text>
+              <Text className="text-foreground-muted text-sm font-medium mb-2 pl-1">Selecione o Cartão</Text>
               <View className="flex-row flex-wrap gap-2">
                 {creditCards.map((c) => {
                   const isSelected = watch('creditCardId') === c.id;
@@ -376,15 +379,15 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
                     <TouchableOpacity
                       key={c.id}
                       className={`px-4 py-3 rounded-2xl border flex-row items-center ${
-                        isSelected ? 'bg-primary/20 border-primary' : 'bg-surface-dark border-border-dark'
+                        isSelected ? 'bg-primary/20 border-primary' : 'bg-surface border-border'
                       }`}
                       style={{ minWidth: '45%' }}
                       onPress={() => setValue('creditCardId', c.id)}
                     >
                       <View className="w-3.5 h-3.5 rounded-full mr-2" style={{ backgroundColor: c.color }} />
                       <View>
-                        <Text className="text-white text-xs font-bold">{c.name}</Text>
-                        <Text className="text-textMutedDark text-[10px]">
+                        <Text className="text-foreground text-xs font-bold">{c.name}</Text>
+                        <Text className="text-foreground-muted text-[10px]">
                           Lmt Disp: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c.limit_available)}
                         </Text>
                       </View>
@@ -418,12 +421,12 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
         {/* Toggle Recorrência Mensal — só em criação. Disponível em todos os
             meios de pagamento exceto transferência (assinaturas: Netflix, Spotify, etc) */}
         {!isEditing && currentType !== 'transfer' && (
-          <View className="flex-row items-center justify-between bg-surface-darkMuted p-4 rounded-2xl mb-5">
+          <View className="flex-row items-center justify-between bg-surface-muted p-4 rounded-2xl mb-5">
             <View className="flex-row items-center flex-1 pr-3">
               <Repeat size={20} color={COLORS.primary} />
               <View className="ml-3 flex-1">
-                <Text className="text-white font-bold text-sm">Repetir todo mês</Text>
-                <Text className="text-textMutedDark text-xs mt-0.5">
+                <Text className="text-foreground font-bold text-sm">Repetir todo mês</Text>
+                <Text className="text-foreground-muted text-xs mt-0.5">
                   Lança automaticamente uma nova transação igual a cada mês.
                 </Text>
               </View>
@@ -431,7 +434,7 @@ export const QuickTransactionModal: React.FC<QuickTransactionModalProps> = ({
             <Switch
               value={watch('recurrent')}
               onValueChange={(v) => setValue('recurrent', v)}
-              trackColor={{ false: COLORS.borderDark, true: COLORS.primary }}
+              trackColor={{ false: COLORS.border, true: COLORS.primary }}
               thumbColor="#FFFFFF"
             />
           </View>

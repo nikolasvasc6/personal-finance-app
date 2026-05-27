@@ -5,6 +5,7 @@ import { useAuthStore } from '../../shared/store/useAuthStore';
 import { useFinanceStore } from '../../shared/store/useFinanceStore';
 import { supabase } from '../../core/supabase';
 import { Card } from '../../shared/components/Card';
+import { ScreenBackground } from '../../shared/components/ScreenBackground';
 import { Button } from '../../shared/components/Button';
 import { COLORS } from '../../core/theme';
 
@@ -50,11 +51,11 @@ export const SettingsScreen: React.FC = () => {
       // 2. Inserir Contas Mock
       const { data: acc1 } = await supabase.from('accounts').insert({
         user_id: user.id,
-        name: 'Nubank Corrente',
+        name: 'Conta Corrente',
         type: 'checking',
         balance: 2450.50,
         icon: 'Landmark',
-        color: '#820AD1'
+        color: COLORS.primary
       }).select().single();
 
       const { data: acc2 } = await supabase.from('accounts').insert({
@@ -63,19 +64,19 @@ export const SettingsScreen: React.FC = () => {
         type: 'cash',
         balance: 150.00,
         icon: 'Wallet',
-        color: '#00B050'
+        color: COLORS.success
       }).select().single();
 
       // 3. Inserir Cartão Mock
       const { data: card } = await supabase.from('credit_cards').insert({
         user_id: user.id,
-        name: 'Roxinho Gold',
+        name: 'Cartão Gold',
         brand: 'Mastercard',
         limit_total: 5000.00,
         limit_available: 4200.00,
         closing_day: 10,
         due_day: 17,
-        color: '#820AD1'
+        color: COLORS.primary
       }).select().single();
 
       // 4. Buscar Categorias Padrão
@@ -209,46 +210,47 @@ export const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <View className="flex-1 bg-background-dark pt-14 px-5">
-      <Text className="text-white text-2xl font-black mt-4 mb-6">Ajustes</Text>
+    <ScreenBackground>
+      <View className="flex-1 pt-14 px-5">
+      <Text className="text-foreground text-2xl font-black mt-4 mb-6 tracking-tight">Ajustes</Text>
 
-      {/* Cartão de Perfil */}
-      <Card className="flex-row items-center mb-6">
-        <View className="w-14 h-14 bg-primary/20 border border-primary/30 rounded-full items-center justify-center mr-4">
-          <User size={28} color={COLORS.primary} />
+      {/* Cartão de Perfil — destaque em gradiente azul */}
+      <Card variant="gradient" className="flex-row items-center mb-6">
+        <View className="w-14 h-14 bg-white/25 border border-white/30 rounded-full items-center justify-center mr-4">
+          <User size={28} color="#FFFFFF" />
         </View>
         <View>
           <Text className="text-white text-lg font-bold">{profile?.full_name || 'Usuário'}</Text>
-          <Text className="text-textMutedDark text-sm mt-0.5">{profile?.email || 'email@exemplo.com'}</Text>
+          <Text className="text-white/80 text-sm mt-0.5">{profile?.email || 'email@exemplo.com'}</Text>
         </View>
       </Card>
 
       {/* Lista de Opções */}
       <View className="space-y-4">
         {/* Opção Biometria */}
-        <Card className="flex-row items-center justify-between py-4 mb-3">
+        <Card variant="glass" className="flex-row items-center justify-between py-4 mb-3">
           <View className="flex-row items-center">
             <Shield size={20} color={COLORS.primary} className="mr-3" />
-            <Text className="text-white text-base font-semibold">Autenticação Biométrica</Text>
+            <Text className="text-foreground text-base font-semibold">Autenticação Biométrica</Text>
           </View>
           <Switch
             value={biometrics}
             onValueChange={handleToggleBiometrics}
-            trackColor={{ false: '#1E1E24', true: COLORS.primary }}
+            trackColor={{ false: COLORS.border, true: COLORS.primary }}
             thumbColor="#FFFFFF"
           />
         </Card>
 
         {/* Opção Popular Banco (Massa de Testes) */}
-        <Card className="flex-row items-center justify-between py-4 mb-3" onPress={handleLoadMockData}>
+        <Card variant="glass" className="flex-row items-center justify-between py-4 mb-3" onPress={handleLoadMockData}>
           <View className="flex-row items-center">
             <Database size={20} color={COLORS.success} className="mr-3" />
             <View>
-              <Text className="text-white text-base font-semibold">Massa de Testes (Mock)</Text>
-              <Text className="text-textMutedDark text-xs mt-0.5">Preencher banco com dados fictícios</Text>
+              <Text className="text-foreground text-base font-semibold">Massa de Testes (Mock)</Text>
+              <Text className="text-foreground-muted text-xs mt-0.5">Preencher banco com dados fictícios</Text>
             </View>
           </View>
-          <ChevronRight size={18} color={COLORS.textMutedDark} />
+          <ChevronRight size={18} color={COLORS.foregroundMuted} />
         </Card>
 
         {/* Botão Sair da Conta */}
@@ -260,6 +262,7 @@ export const SettingsScreen: React.FC = () => {
           className="mt-6 border-danger/40 py-4"
         />
       </View>
-    </View>
+      </View>
+    </ScreenBackground>
   );
 };

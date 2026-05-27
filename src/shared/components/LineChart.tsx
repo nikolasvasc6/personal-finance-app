@@ -23,7 +23,7 @@ export const LineChart: React.FC<LineChartProps> = ({
   if (!data || data.length === 0) {
     return (
       <View className="items-center justify-center py-10">
-        <Text className="text-textMutedDark text-sm">Sem dados históricos</Text>
+        <Text className="text-foreground-muted text-sm">Sem dados históricos</Text>
       </View>
     );
   }
@@ -109,7 +109,7 @@ export const LineChart: React.FC<LineChartProps> = ({
                 cy={point.y}
                 r="4"
                 fill={COLORS.primary}
-                stroke="#FFFFFF"
+                stroke={COLORS.background}
                 strokeWidth="1.5"
               />
             </React.Fragment>
@@ -120,7 +120,7 @@ export const LineChart: React.FC<LineChartProps> = ({
       {/* Rótulos do eixo X */}
       <View className="flex-row justify-between w-full px-5 mt-2">
         {data.map((item, index) => (
-          <Text key={index} className="text-textMutedDark text-[10px] font-semibold uppercase">
+          <Text key={index} className="text-foreground-muted text-[10px] font-semibold uppercase">
             {item.label}
           </Text>
         ))}

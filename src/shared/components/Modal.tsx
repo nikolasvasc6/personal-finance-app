@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal as RNModal, View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { X } from 'lucide-react-native';
+import { COLORS } from '../../core/theme';
 
 interface ModalProps {
   visible: boolean;
@@ -24,31 +25,31 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1 justify-end bg-black/60"
+        className="flex-1 justify-end bg-slate-900/40"
       >
         {/* Clique fora para fechar opcional */}
-        <TouchableOpacity 
-          activeOpacity={1} 
-          className="flex-1" 
+        <TouchableOpacity
+          activeOpacity={1}
+          className="flex-1"
           onPress={onClose}
         />
-        
+
         {/* Conteúdo do Modal (Bottom Sheet Style) */}
-        <View className="bg-surface-dark border-t border-x border-border-dark rounded-t-[32px] max-h-[85%] min-h-[40%] pb-8 pt-6">
+        <View className="bg-surface border-t border-x border-border rounded-t-[32px] max-h-[85%] min-h-[40%] pb-8 pt-6">
           {/* Header */}
-          <View className="flex-row items-center justify-between px-6 pb-4 border-b border-border-dark">
-            <Text className="text-white text-xl font-bold">{title}</Text>
-            <TouchableOpacity 
+          <View className="flex-row items-center justify-between px-6 pb-4 border-b border-border">
+            <Text className="text-foreground text-xl font-bold">{title}</Text>
+            <TouchableOpacity
               onPress={onClose}
-              className="bg-surface-darkMuted p-2 rounded-full"
+              className="bg-surface-muted p-2 rounded-full"
             >
-              <X size={20} color="#FFFFFF" />
+              <X size={20} color={COLORS.foreground} />
             </TouchableOpacity>
           </View>
 
           {/* Body */}
-          <ScrollView 
-            className="px-6 pt-5" 
+          <ScrollView
+            className="px-6 pt-5"
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >

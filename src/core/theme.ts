@@ -1,48 +1,59 @@
-// Configurações do Design System para o App Financeiro (estilo Nubank/Notion/Linear)
-import { 
-  Utensils, Car, Smile, ShoppingCart, Heart, BookOpen, 
-  DollarSign, TrendingUp, PlusCircle, Box, CreditCard, 
-  Wallet, Landmark, Briefcase, HelpCircle, Activity, 
+// Configurações do Design System para o App Financeiro (identidade visual estilo kie.ai — light/azul)
+import {
+  Utensils, Car, Smile, ShoppingCart, Heart, BookOpen,
+  DollarSign, TrendingUp, PlusCircle, Box, CreditCard,
+  Wallet, Landmark, Briefcase, HelpCircle, Activity,
   ShoppingBag, Flame, Coffee, Gift, Home, Shield, Wrench,
   Zap, Award, Bell
 } from 'lucide-react-native';
 
 export const COLORS = {
-  // Cores principais
-  primary: '#820AD1', // Roxo Nubank
-  primaryLight: '#A33DF2',
-  primaryDark: '#5F089E',
-  success: '#00B050',
-  danger: '#F23A4A',
-  warning: '#FF9500',
-  info: '#007AFF',
-  
-  // Temas Dark/Light
-  bgLight: '#F8F9FA',
-  bgDark: '#0A0A0C',
-  surfaceLight: '#FFFFFF',
-  surfaceDark: '#121215',
-  surfaceDarkMuted: '#1E1E24',
-  
-  // Bordas e Muted
-  borderLight: '#E2E8F0',
-  borderDark: '#1F222A',
-  textMutedLight: '#64748B',
-  textMutedDark: '#8E9AA8',
+  // Brand
+  primary: '#2563EB',
+  primaryLight: '#3B82F6',
+  primaryDark: '#1D4ED8',
+  primarySoft: '#EFF6FF',
+
+  // Estados
+  success: '#059669',
+  successSoft: '#ECFDF5',
+  danger: '#E11D48',
+  dangerSoft: '#FFE4E6',
+  warning: '#F59E0B',
+  warningSoft: '#FEF3C7',
+  info: '#0EA5E9',
+  infoSoft: '#E0F2FE',
+
+  // Neutros (Light)
+  background: '#FFFFFF',
+  backgroundMuted: '#FAFBFC',
+  surface: '#FFFFFF',
+  surfaceMuted: '#F1F5F9',
+  border: '#E2E8F0',
+  borderStrong: '#CBD5E1',
+
+  // Texto
+  foreground: '#020817',
+  foregroundMuted: '#64748B',
+  foregroundSubtle: '#94A3B8',
+  foregroundDisabled: '#CBD5E1',
+
+  // Inverso (texto sobre primary/danger)
+  onPrimary: '#FFFFFF',
 };
 
 // Cores pré-definidas para o usuário escolher ao criar Contas/Cartões
 export const COLOR_OPTIONS = [
-  { id: 'purple', name: 'Roxo Nubank', value: '#820AD1' },
-  { id: 'blue', name: 'Azul Inter', value: '#007AFF' },
-  { id: 'green', name: 'Verde Sucesso', value: '#00B050' },
-  { id: 'orange', name: 'Laranja Itaú', value: '#FF9500' },
-  { id: 'red', name: 'Vermelho Rubi', value: '#F23A4A' },
-  { id: 'pink', name: 'Rosa Coral', value: '#FF2D55' },
-  { id: 'indigo', name: 'Índigo Noturno', value: '#5856D6' },
-  { id: 'gray', name: 'Cinza Grafite', value: '#3A3A3C' },
-  { id: 'teal', name: 'Menta', value: '#30B0C7' },
-  { id: 'gold', name: 'Ouro Nobre', value: '#D4AF37' },
+  { id: 'blue', name: 'Azul', value: '#2563EB' },
+  { id: 'green', name: 'Verde', value: '#059669' },
+  { id: 'amber', name: 'Âmbar', value: '#F59E0B' },
+  { id: 'red', name: 'Vermelho', value: '#E11D48' },
+  { id: 'pink', name: 'Rosa', value: '#EC4899' },
+  { id: 'purple', name: 'Roxo', value: '#8B5CF6' },
+  { id: 'cyan', name: 'Ciano', value: '#06B6D4' },
+  { id: 'slate', name: 'Grafite', value: '#475569' },
+  { id: 'teal', name: 'Teal', value: '#0D9488' },
+  { id: 'gold', name: 'Dourado', value: '#CA8A04' },
 ];
 
 // Ícones mapeados para usar de forma dinâmica

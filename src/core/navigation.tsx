@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, Landmark, History, Settings } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuthStore } from '../shared/store/useAuthStore';
 import { AuthScreen } from '../features/auth/AuthScreen';
@@ -17,20 +18,30 @@ const Tab = createBottomTabNavigator();
 
 // Navegação das Abas Principais (Usuário Autenticado)
 function AppTabs() {
+  // Respeita o safe area inferior (home indicator no iOS, gestos no Android)
+  // para que o tab bar nunca seja cortado pela margem do sistema.
+  const insets = useSafeAreaInsets();
+  const bottomInset = Math.max(insets.bottom, 8);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: true,
         tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: COLORS.textMutedDark,
+        tabBarInactiveTintColor: COLORS.foregroundMuted,
         tabBarStyle: {
-          backgroundColor: COLORS.surfaceDark,
-          borderTopColor: COLORS.borderDark,
+          backgroundColor: COLORS.surface,
+          borderTopColor: COLORS.border,
           borderTopWidth: 1,
           paddingTop: 8,
-          paddingBottom: 12,
-          height: 68,
+          paddingBottom: bottomInset,
+          height: 60 + bottomInset,
+          shadowColor: '#020817',
+          shadowOpacity: 0.04,
+          shadowRadius: 8,
+          shadowOffset: { width: 0, height: -2 },
+          elevation: 8,
         },
         tabBarLabelStyle: {
           fontSize: 10,

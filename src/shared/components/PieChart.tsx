@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
+import { COLORS } from '../../core/theme';
 
 interface ChartDataItem {
   name: string;
@@ -35,12 +36,12 @@ export const PieChart: React.FC<PieChartProps> = ({
             cx={size / 2}
             cy={size / 2}
             r={radius}
-            stroke="#1F222A"
+            stroke={COLORS.border}
             strokeWidth={strokeWidth}
             fill="transparent"
           />
         </Svg>
-        <Text className="text-textMutedDark text-sm mt-4 font-medium">Nenhum gasto registrado</Text>
+        <Text className="text-foreground-muted text-sm mt-4 font-medium">Nenhum gasto registrado</Text>
       </View>
     );
   }
@@ -86,8 +87,8 @@ export const PieChart: React.FC<PieChartProps> = ({
             height: size - (strokeWidth * 2) 
           }}
         >
-          <Text className="text-white text-xs uppercase tracking-widest font-semibold text-textMutedDark">Total</Text>
-          <Text className="text-white text-lg font-bold mt-0.5">
+          <Text className="text-xs uppercase tracking-widest font-semibold text-foreground-muted">Total</Text>
+          <Text className="text-foreground text-lg font-bold mt-0.5">
             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total)}
           </Text>
         </View>
@@ -102,17 +103,17 @@ export const PieChart: React.FC<PieChartProps> = ({
                 className="w-3 h-3 rounded-full mr-2" 
                 style={{ backgroundColor: item.color }} 
               />
-              <Text className="text-white text-xs font-semibold truncate" numberOfLines={1}>
+              <Text className="text-foreground text-xs font-semibold truncate" numberOfLines={1}>
                 {item.name}
               </Text>
             </View>
-            <Text className="text-textMutedDark text-xs font-bold">
+            <Text className="text-foreground-muted text-xs font-bold">
               {Math.round((item.value / total) * 100)}%
             </Text>
           </View>
         ))}
         {filteredData.length > 5 && (
-          <Text className="text-textMutedDark text-xs italic pl-5">
+          <Text className="text-foreground-muted text-xs italic pl-5">
             + {filteredData.length - 5} categorias
           </Text>
         )}

@@ -9,6 +9,7 @@ import { PieChart } from '../../shared/components/PieChart';
 import { LineChart } from '../../shared/components/LineChart';
 import { QuickTransactionModal } from '../transactions/QuickTransactionModal';
 import { Card } from '../../shared/components/Card';
+import { ScreenBackground } from '../../shared/components/ScreenBackground';
 import { InvoiceDetailModal } from '../accounts/InvoiceDetailModal';
 
 export const DashboardScreen: React.FC = () => {
@@ -127,7 +128,7 @@ export const DashboardScreen: React.FC = () => {
     (acc: { [key: string]: { name: string; value: number; color: string } }, curr) => {
       const cat = categories.find((c) => c.id === curr.categoryId);
       const catName = cat?.name || 'Outras Despesas';
-      const catColor = cat?.color || COLORS.textMutedDark;
+      const catColor = cat?.color || COLORS.foregroundMuted;
       if (!acc[catName]) acc[catName] = { name: catName, value: 0, color: catColor };
       acc[catName].value += curr.value;
       return acc;
@@ -193,116 +194,118 @@ export const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView
-      className="flex-1 bg-background-dark px-5 pt-12"
-      refreshControl={
-        <RefreshControl refreshing={loading} onRefresh={onRefresh} tintColor={COLORS.primary} />
-      }
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Header */}
-      <View className="flex-row items-center justify-between mt-4 mb-6">
-        <View className="flex-row items-center">
-          <View className="w-11 h-11 bg-primary/20 border border-primary/30 rounded-full items-center justify-center mr-3">
-            <Text className="text-primary font-bold text-lg">
-              {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
-            </Text>
+    <ScreenBackground>
+      <ScrollView
+        className="flex-1 px-5 pt-12"
+        style={{ backgroundColor: 'transparent' }}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={onRefresh} tintColor={COLORS.primary} />
+        }
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View className="flex-row items-center justify-between mt-4 mb-6">
+          <View className="flex-row items-center">
+            <View className="w-11 h-11 bg-white/70 border border-primary/30 rounded-full items-center justify-center mr-3">
+              <Text className="text-primary font-bold text-lg">
+                {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
+              </Text>
+            </View>
+            <View>
+              <Text className="text-foreground-muted text-xs font-semibold uppercase tracking-wider">Bem-vindo</Text>
+              <Text className="text-foreground text-base font-bold">{profile?.full_name || 'Usuário'}</Text>
+            </View>
           </View>
-          <View>
-            <Text className="text-textMutedDark text-xs font-semibold uppercase tracking-wider">Bem-vindo</Text>
-            <Text className="text-white text-base font-bold">{profile?.full_name || 'Usuário'}</Text>
+
+          <View className="flex-row space-x-2">
+            <TouchableOpacity
+              onPress={() => setHideValues(!hideValues)}
+              className="bg-white/70 border border-white/80 p-2.5 rounded-full"
+            >
+              {hideValues ? <EyeOff size={20} color={COLORS.foreground} /> : <Eye size={20} color={COLORS.foreground} />}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onRefresh}
+              className="bg-white/70 border border-white/80 p-2.5 rounded-full"
+            >
+              <RefreshCcw size={20} color={COLORS.foreground} />
+            </TouchableOpacity>
           </View>
         </View>
-        
-        <View className="flex-row space-x-2">
-          <TouchableOpacity 
-            onPress={() => setHideValues(!hideValues)}
-            className="bg-surface-darkMuted p-2.5 rounded-full"
+
+        {/* Card Saldo Geral — gradiente azul de destaque */}
+        <Card variant="gradient" className="mb-6">
+          <View className="flex-row items-center justify-between mb-2">
+            <Text className="text-white/80 text-sm font-semibold uppercase tracking-wider">Saldo Total Disponível</Text>
+            <Wallet size={16} color="#FFFFFF" />
+          </View>
+          <Text className="text-white text-3xl font-black tracking-tight my-1">
+            {hideValues ? '••••••' : formatCurrency(totalBalance)}
+          </Text>
+
+          <View className="flex-row justify-between border-t border-white/20 pt-4 mt-3">
+            <View>
+              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Receitas do Mês</Text>
+              <Text className="text-white text-sm font-bold">
+                {hideValues ? '••••' : `+ ${formatCurrency(totalIncomes)}`}
+              </Text>
+            </View>
+            <View>
+              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Despesas do Mês</Text>
+              <Text className="text-white text-sm font-bold">
+                {hideValues ? '••••' : `- ${formatCurrency(totalExpenses)}`}
+              </Text>
+            </View>
+            <View>
+              <Text className="text-white/70 text-[10px] font-semibold uppercase tracking-wider mb-1">Economia</Text>
+              <Text className="text-white text-sm font-bold">
+                {hideValues ? '••••' : formatCurrency(savings)}
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Atalhos Rápidos */}
+        <View className="flex-row gap-3 mb-6">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => openQuickTx('expense')}
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
           >
-            {hideValues ? <EyeOff size={20} color="#FFFFFF" /> : <Eye size={20} color="#FFFFFF" />}
+            <ArrowDownRight size={18} color={COLORS.danger} className="mr-2" />
+            <Text className="text-foreground font-bold text-xs">Pagar</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-            onPress={onRefresh}
-            className="bg-surface-darkMuted p-2.5 rounded-full"
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => openQuickTx('income')}
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
           >
-            <RefreshCcw size={20} color="#FFFFFF" />
+            <ArrowUpRight size={18} color={COLORS.success} className="mr-2" />
+            <Text className="text-foreground font-bold text-xs">Receber</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => openQuickTx('transfer')}
+            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+          >
+            <Plus size={18} color={COLORS.info} className="mr-2" />
+            <Text className="text-foreground font-bold text-xs">Transferir</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
-      {/* Card Saldo Geral */}
-      <Card className="mb-6">
-        <View className="flex-row items-center justify-between mb-2">
-          <Text className="text-textMutedDark text-sm font-semibold uppercase tracking-wider">Saldo Total Disponível</Text>
-          <Wallet size={16} color={COLORS.primary} />
-        </View>
-        <Text className="text-white text-3xl font-black tracking-tight my-1">
-          {hideValues ? '••••••' : formatCurrency(totalBalance)}
-        </Text>
-        
-        <View className="flex-row justify-between border-t border-border-dark pt-4 mt-3">
-          <View>
-            <Text className="text-textMutedDark text-[10px] font-semibold uppercase tracking-wider mb-1">Receitas do Mês</Text>
-            <Text className="text-success text-sm font-bold">
-              {hideValues ? '••••' : `+ ${formatCurrency(totalIncomes)}`}
-            </Text>
-          </View>
-          <View>
-            <Text className="text-textMutedDark text-[10px] font-semibold uppercase tracking-wider mb-1">Despesas do Mês</Text>
-            <Text className="text-danger text-sm font-bold">
-              {hideValues ? '••••' : `- ${formatCurrency(totalExpenses)}`}
-            </Text>
-          </View>
-          <View>
-            <Text className="text-textMutedDark text-[10px] font-semibold uppercase tracking-wider mb-1">Economia</Text>
-            <Text className={`text-sm font-bold ${savings >= 0 ? 'text-success' : 'text-danger'}`}>
-              {hideValues ? '••••' : formatCurrency(savings)}
-            </Text>
-          </View>
-        </View>
-      </Card>
-
-      {/* Atalhos Rápidos */}
-      <View className="flex-row gap-3 mb-6">
-        <TouchableOpacity 
-          activeOpacity={0.8}
-          onPress={() => openQuickTx('expense')}
-          className="flex-1 bg-surface-dark border border-border-dark p-4 rounded-2xl flex-row items-center justify-center"
-        >
-          <ArrowDownRight size={18} color={COLORS.danger} className="mr-2" />
-          <Text className="text-white font-bold text-xs">Pagar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          activeOpacity={0.8}
-          onPress={() => openQuickTx('income')}
-          className="flex-1 bg-surface-dark border border-border-dark p-4 rounded-2xl flex-row items-center justify-center"
-        >
-          <ArrowUpRight size={18} color={COLORS.success} className="mr-2" />
-          <Text className="text-white font-bold text-xs">Receber</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          activeOpacity={0.8}
-          onPress={() => openQuickTx('transfer')}
-          className="flex-1 bg-surface-dark border border-border-dark p-4 rounded-2xl flex-row items-center justify-center"
-        >
-          <Plus size={18} color={COLORS.info} className="mr-2" />
-          <Text className="text-white font-bold text-xs">Transferir</Text>
-        </TouchableOpacity>
-      </View>
 
       {/* Cartões de Crédito / Faturas */}
       {creditCards.length > 0 && (
-        <Card className="mb-6" onPress={() => {}}>
+        <Card variant="glass" className="mb-6" onPress={() => {}}>
           <View className="flex-row items-center justify-between mb-3">
             <View className="flex-row items-center">
               <CreditCard size={18} color={COLORS.primary} className="mr-2" />
-              <Text className="text-white font-bold text-sm">Fatura Aberta Total</Text>
+              <Text className="text-foreground font-bold text-sm">Fatura Aberta Total</Text>
             </View>
-            <Text className="text-textMutedDark text-xs font-semibold">Ver detalhes</Text>
+            <Text className="text-foreground-muted text-xs font-semibold">Ver detalhes</Text>
           </View>
-          <Text className="text-white text-2xl font-black mb-2">
+          <Text className="text-foreground text-2xl font-black mb-2">
             {hideValues ? '••••••' : formatCurrency(totalOpenInvoicesAmount)}
           </Text>
 
@@ -319,13 +322,13 @@ export const DashboardScreen: React.FC = () => {
                 className="mt-3"
               >
                 <View className="flex-row justify-between mb-1">
-                  <Text className="text-textMutedDark text-xs">{c.name}</Text>
-                  <Text className="text-white text-xs font-bold">
+                  <Text className="text-foreground-muted text-xs">{c.name}</Text>
+                  <Text className="text-foreground text-xs font-bold">
                     Disp: {hideValues ? '••••' : formatCurrency(c.limit_available)}
                   </Text>
                 </View>
                 {/* Progress Bar */}
-                <View className="w-full h-1.5 bg-surface-darkMuted rounded-full overflow-hidden">
+                <View className="w-full h-1.5 bg-surface-muted rounded-full overflow-hidden">
                   <View
                     className="h-full bg-primary rounded-full"
                     style={{ width: `${percentageUsed}%` }}
@@ -343,15 +346,15 @@ export const DashboardScreen: React.FC = () => {
       )}
 
       {/* Gráfico de Evolução Financeira */}
-      <Card className="mb-6">
-        <Text className="text-white font-bold text-base mb-4">Fluxo de Caixa (Últimos 6 meses)</Text>
+      <Card variant="glass" className="mb-6">
+        <Text className="text-foreground font-bold text-base mb-4">Fluxo de Caixa (Últimos 6 meses)</Text>
         <LineChart data={lineChartData} width={310} height={140} />
       </Card>
 
       {/* Gráfico de Gastos por Categoria */}
       {pieChartData.length > 0 && (
-        <Card className="mb-6">
-          <Text className="text-white font-bold text-base mb-2">Gastos por Categoria</Text>
+        <Card variant="glass" className="mb-6">
+          <Text className="text-foreground font-bold text-base mb-2">Gastos por Categoria</Text>
           <PieChart data={pieChartData} size={150} />
         </Card>
       )}
@@ -359,7 +362,7 @@ export const DashboardScreen: React.FC = () => {
       {/* Últimas Transações */}
       <View className="mb-14">
         <View className="flex-row items-center justify-between mb-4">
-          <Text className="text-white font-bold text-lg">Atividades Recentes</Text>
+          <Text className="text-foreground font-bold text-lg">Atividades Recentes</Text>
           <TouchableOpacity>
             <Text className="text-primary font-bold text-sm">Ver tudo</Text>
           </TouchableOpacity>
@@ -370,9 +373,9 @@ export const DashboardScreen: React.FC = () => {
             const cat = categories.find(c => c.id === tx.category_id);
             const isExpense = tx.type === 'expense';
             return (
-              <View 
-                key={tx.id} 
-                className="flex-row items-center justify-between bg-surface-dark border border-border-dark p-4 rounded-2xl mb-2"
+              <View
+                key={tx.id}
+                className="flex-row items-center justify-between bg-white/80 border border-white/70 p-4 rounded-2xl mb-2"
               >
                 <View className="flex-row items-center flex-1 pr-4">
                   <View 
@@ -384,16 +387,16 @@ export const DashboardScreen: React.FC = () => {
                     </Text>
                   </View>
                   <View className="flex-1">
-                    <Text className="text-white font-bold text-sm truncate" numberOfLines={1}>
+                    <Text className="text-foreground font-bold text-sm truncate" numberOfLines={1}>
                       {tx.description}
                     </Text>
-                    <Text className="text-textMutedDark text-xs mt-0.5">
+                    <Text className="text-foreground-muted text-xs mt-0.5">
                       {cat?.name || 'Geral'} • {new Date(tx.date).toLocaleDateString('pt-BR')}
                     </Text>
                   </View>
                 </View>
                 
-                <Text className={`font-extrabold text-sm ${isExpense ? 'text-white' : 'text-success'}`}>
+                <Text className={`font-extrabold text-sm ${isExpense ? 'text-foreground' : 'text-success'}`}>
                   {isExpense ? '-' : '+'} {formatCurrency(tx.value)}
                 </Text>
               </View>
@@ -401,8 +404,8 @@ export const DashboardScreen: React.FC = () => {
           })}
           {transactions.length === 0 && (
             <View className="items-center py-8">
-              <HelpCircle size={32} color={COLORS.textMutedDark} />
-              <Text className="text-textMutedDark text-sm mt-2">Nenhuma transação cadastrada</Text>
+              <HelpCircle size={32} color={COLORS.foregroundMuted} />
+              <Text className="text-foreground-muted text-sm mt-2">Nenhuma transação cadastrada</Text>
             </View>
           )}
         </View>
@@ -422,6 +425,7 @@ export const DashboardScreen: React.FC = () => {
         invoice={invoiceDetail?.invoice ?? null}
         card={invoiceDetail?.card ?? null}
       />
-    </ScrollView>
+      </ScrollView>
+    </ScreenBackground>
   );
 };

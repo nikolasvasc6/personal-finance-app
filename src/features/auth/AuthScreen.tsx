@@ -7,6 +7,7 @@ import { Mail, Lock, User, TrendingUp, Shield, CreditCard, ChevronRight } from '
 import { supabase } from '../../core/supabase';
 import { Input } from '../../shared/components/Input';
 import { Button } from '../../shared/components/Button';
+import { ScreenBackground } from '../../shared/components/ScreenBackground';
 import { COLORS } from '../../core/theme';
 
 // Schemas de Validação com Zod
@@ -90,68 +91,72 @@ export const AuthScreen: React.FC = () => {
   // Renderizador do Onboarding
   if (mode === 'onboarding') {
     return (
-      <View className="flex-1 bg-background-dark px-6 justify-between py-14">
-        {/* Topo / Logo */}
-        <View className="items-center mt-12">
-          <View className="bg-primary/10 p-4 rounded-3xl mb-4 border border-primary/20">
-            <TrendingUp size={48} color={COLORS.primary} />
-          </View>
-          <Text className="text-white text-3xl font-extrabold tracking-tight">antigravity</Text>
-          <Text className="text-textMutedDark text-base mt-2">Sua inteligência financeira</Text>
-        </View>
-
-        {/* Features Carrossel visual */}
-        <View className="space-y-6 my-8">
-          <View className="flex-row items-center bg-surface-dark border border-border-dark p-4 rounded-2xl">
-            <View className="bg-success/10 p-3 rounded-xl mr-4">
-              <Shield size={24} color={COLORS.success} />
+      <ScreenBackground variant="hero">
+        <View className="flex-1 px-6 justify-between py-14">
+          {/* Topo / Logo */}
+          <View className="items-center mt-12">
+            <View className="bg-white/70 p-4 rounded-3xl mb-4 border border-primary/20">
+              <TrendingUp size={48} color={COLORS.primary} />
             </View>
-            <View className="flex-1">
-              <Text className="text-white font-bold text-base">Controle Absoluto</Text>
-              <Text className="text-textMutedDark text-sm mt-0.5">Monitore saldo de contas e transações em tempo real.</Text>
-            </View>
+            <Text className="text-foreground text-3xl font-extrabold tracking-tight">antigravity</Text>
+            <Text className="text-foreground-muted text-base mt-2">Sua inteligência financeira</Text>
           </View>
 
-          <View className="flex-row items-center bg-surface-dark border border-border-dark p-4 rounded-2xl">
-            <View className="bg-primary/10 p-3 rounded-xl mr-4">
-              <CreditCard size={24} color={COLORS.primary} />
+          {/* Features Carrossel visual */}
+          <View className="space-y-6 my-8">
+            <View className="flex-row items-center bg-white/80 border border-white/70 p-4 rounded-2xl">
+              <View className="bg-success/10 p-3 rounded-xl mr-4">
+                <Shield size={24} color={COLORS.success} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-foreground font-bold text-base">Controle Absoluto</Text>
+                <Text className="text-foreground-muted text-sm mt-0.5">Monitore saldo de contas e transações em tempo real.</Text>
+              </View>
             </View>
-            <View className="flex-1">
-              <Text className="text-white font-bold text-base">Cartão de Crédito Avançado</Text>
-              <Text className="text-textMutedDark text-sm mt-0.5">Controle compras parceladas, limites e faturas futuras.</Text>
+
+            <View className="flex-row items-center bg-white/80 border border-white/70 p-4 rounded-2xl">
+              <View className="bg-primary/10 p-3 rounded-xl mr-4">
+                <CreditCard size={24} color={COLORS.primary} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-foreground font-bold text-base">Cartão de Crédito Avançado</Text>
+                <Text className="text-foreground-muted text-sm mt-0.5">Controle compras parceladas, limites e faturas futuras.</Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* Botões de Ação */}
-        <View className="space-y-4">
-          <Button 
-            label="Criar minha conta" 
-            variant="primary" 
-            onPress={() => setMode('register')}
-            icon={<ChevronRight size={20} color="#FFFFFF" />}
-          />
-          <Button 
-            label="Já tenho conta (Entrar)" 
-            variant="outline" 
-            onPress={() => setMode('login')}
-          />
+          {/* Botões de Ação */}
+          <View className="space-y-4">
+            <Button
+              label="Criar minha conta"
+              variant="primary"
+              onPress={() => setMode('register')}
+              icon={<ChevronRight size={20} color="#FFFFFF" />}
+            />
+            <Button
+              label="Já tenho conta (Entrar)"
+              variant="outline"
+              onPress={() => setMode('login')}
+            />
+          </View>
         </View>
-      </View>
+      </ScreenBackground>
     );
   }
 
   // Renderizador do Login / Cadastro
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-background-dark"
-    >
-      <ScrollView 
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} 
-        className="px-6 py-10"
-        keyboardShouldPersistTaps="handled"
+    <ScreenBackground variant="hero">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
       >
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+          className="px-6 py-10"
+          style={{ backgroundColor: 'transparent' }}
+          keyboardShouldPersistTaps="handled"
+        >
         <View className="mb-8">
           <TouchableOpacity 
             onPress={() => setMode('onboarding')}
@@ -159,10 +164,10 @@ export const AuthScreen: React.FC = () => {
           >
             <Text className="text-primary text-base font-semibold">← Voltar</Text>
           </TouchableOpacity>
-          <Text className="text-white text-3xl font-extrabold">
+          <Text className="text-foreground text-3xl font-extrabold">
             {mode === 'login' ? 'Bem-vindo de volta' : 'Crie sua conta'}
           </Text>
-          <Text className="text-textMutedDark text-base mt-2">
+          <Text className="text-foreground-muted text-base mt-2">
             {mode === 'login' 
               ? 'Entre com suas credenciais para continuar.' 
               : 'Preencha os campos para começar a economizar.'}
@@ -185,7 +190,7 @@ export const AuthScreen: React.FC = () => {
                   onChangeText={onChange}
                   value={value}
                   error={loginErrors.email?.message}
-                  icon={<Mail size={20} color={COLORS.textMutedDark} />}
+                  icon={<Mail size={20} color={COLORS.foregroundMuted} />}
                 />
               )}
             />
@@ -203,7 +208,7 @@ export const AuthScreen: React.FC = () => {
                   onChangeText={onChange}
                   value={value}
                   error={loginErrors.password?.message}
-                  icon={<Lock size={20} color={COLORS.textMutedDark} />}
+                  icon={<Lock size={20} color={COLORS.foregroundMuted} />}
                 />
               )}
             />
@@ -220,7 +225,7 @@ export const AuthScreen: React.FC = () => {
               onPress={() => setMode('register')} 
               className="mt-6 align-center items-center"
             >
-              <Text className="text-textMutedDark text-sm">
+              <Text className="text-foreground-muted text-sm">
                 Não tem uma conta? <Text className="text-primary font-bold">Cadastre-se</Text>
               </Text>
             </TouchableOpacity>
@@ -239,7 +244,7 @@ export const AuthScreen: React.FC = () => {
                   onChangeText={onChange}
                   value={value}
                   error={registerErrors.fullName?.message}
-                  icon={<User size={20} color={COLORS.textMutedDark} />}
+                  icon={<User size={20} color={COLORS.foregroundMuted} />}
                 />
               )}
             />
@@ -257,7 +262,7 @@ export const AuthScreen: React.FC = () => {
                   onChangeText={onChange}
                   value={value}
                   error={registerErrors.email?.message}
-                  icon={<Mail size={20} color={COLORS.textMutedDark} />}
+                  icon={<Mail size={20} color={COLORS.foregroundMuted} />}
                 />
               )}
             />
@@ -275,7 +280,7 @@ export const AuthScreen: React.FC = () => {
                   onChangeText={onChange}
                   value={value}
                   error={registerErrors.password?.message}
-                  icon={<Lock size={20} color={COLORS.textMutedDark} />}
+                  icon={<Lock size={20} color={COLORS.foregroundMuted} />}
                 />
               )}
             />
@@ -292,7 +297,7 @@ export const AuthScreen: React.FC = () => {
               onPress={() => setMode('login')} 
               className="mt-6 align-center items-center"
             >
-              <Text className="text-textMutedDark text-sm">
+              <Text className="text-foreground-muted text-sm">
                 Já tem uma conta? <Text className="text-primary font-bold">Faça Login</Text>
               </Text>
             </TouchableOpacity>
@@ -300,5 +305,6 @@ export const AuthScreen: React.FC = () => {
         )}
       </ScrollView>
     </KeyboardAvoidingView>
+    </ScreenBackground>
   );
 };

@@ -204,20 +204,33 @@ export const DashboardScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <View className="flex-row items-center justify-between mt-4 mb-6">
-          <View className="flex-row items-center">
-            <View className="w-11 h-11 bg-white/70 border border-primary/30 rounded-full items-center justify-center mr-3">
+        <View className="flex-row items-center justify-between mt-4 mb-6 gap-3">
+          <View className="flex-row items-center flex-1" style={{ minWidth: 0 }}>
+            <View
+              className="w-11 h-11 bg-white/70 border border-primary/30 rounded-full items-center justify-center mr-3"
+              style={{ flexShrink: 0 }}
+            >
               <Text className="text-primary font-bold text-lg">
                 {profile?.full_name?.charAt(0).toUpperCase() || 'U'}
               </Text>
             </View>
-            <View>
-              <Text className="text-foreground-muted text-xs font-semibold uppercase tracking-wider">Bem-vindo</Text>
-              <Text className="text-foreground text-base font-bold">{profile?.full_name || 'Usuário'}</Text>
+            <View className="flex-1" style={{ minWidth: 0 }}>
+              <Text
+                className="text-foreground-muted text-xs font-semibold uppercase tracking-wider"
+                numberOfLines={1}
+              >
+                Bem-vindo
+              </Text>
+              <Text
+                className="text-foreground text-base font-bold"
+                numberOfLines={1}
+              >
+                {profile?.full_name || 'Usuário'}
+              </Text>
             </View>
           </View>
 
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-2" style={{ flexShrink: 0 }}>
             <TouchableOpacity
               onPress={() => setHideValues(!hideValues)}
               className="bg-white/70 border border-white/80 p-2.5 rounded-full"
@@ -274,33 +287,56 @@ export const DashboardScreen: React.FC = () => {
           </View>
         </Card>
 
-        {/* Atalhos Rápidos */}
+        {/* Atalhos Rápidos — layout vertical: ícone em cima do texto. Garante que
+            "Transferir" (rótulo mais longo) caiba sem brigar com o ícone em
+            telas estreitas (iPhone SE ~375px). */}
         <View className="flex-row gap-3 mb-6">
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('expense')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+            className="flex-1 bg-white/80 border border-white/70 py-3.5 px-2 rounded-2xl items-center justify-center"
           >
-            <ArrowDownRight size={20} color={COLORS.danger} style={{ marginRight: 8 }} />
-            <Text className="text-foreground font-bold text-xs">Pagar</Text>
+            <View style={{ marginBottom: 6 }}>
+              <ArrowDownRight size={22} color={COLORS.danger} />
+            </View>
+            <Text
+              className="text-foreground font-bold text-xs"
+              numberOfLines={1}
+            >
+              Pagar
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('income')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+            className="flex-1 bg-white/80 border border-white/70 py-3.5 px-2 rounded-2xl items-center justify-center"
           >
-            <ArrowUpRight size={20} color={COLORS.success} style={{ marginRight: 8 }} />
-            <Text className="text-foreground font-bold text-xs">Receber</Text>
+            <View style={{ marginBottom: 6 }}>
+              <ArrowUpRight size={22} color={COLORS.success} />
+            </View>
+            <Text
+              className="text-foreground font-bold text-xs"
+              numberOfLines={1}
+            >
+              Receber
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => openQuickTx('transfer')}
-            className="flex-1 bg-white/80 border border-white/70 p-4 rounded-2xl flex-row items-center justify-center"
+            className="flex-1 bg-white/80 border border-white/70 py-3.5 px-2 rounded-2xl items-center justify-center"
           >
-            <Plus size={20} color={COLORS.primary} style={{ marginRight: 8 }} />
-            <Text className="text-foreground font-bold text-xs">Transferir</Text>
+            <View style={{ marginBottom: 6 }}>
+              <Plus size={22} color={COLORS.primary} />
+            </View>
+            <Text
+              className="text-foreground font-bold text-xs"
+              numberOfLines={1}
+            >
+              Transferir
+            </Text>
           </TouchableOpacity>
         </View>
 
